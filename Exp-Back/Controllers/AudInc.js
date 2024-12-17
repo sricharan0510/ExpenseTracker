@@ -6,7 +6,7 @@ const AddIncome = async (req, res) => {
     try {
         const user = await users.findOneAndUpdate(
             {},
-            { $push: { incomeSorces: { source, incomeAmount } } },
+            { $push: { incomeSources: { source, incomeAmount } } },
         );
         if (!user) {
             return res.status(404).send({ message: "User not found." });
@@ -22,8 +22,8 @@ const UpdateIncome = async (req,res) => {
     const {source, newIncomeAmount} = req.body;
     try {
         const user = await users.findOneAndUpdate (
-            {"incomeSorces.source": source},
-            {$set: {"incomeSorces.$.incomeAmount": newIncomeAmount}},
+            {"incomeSources.source": source},
+            {$set: {"incomeSources.$.incomeAmount": newIncomeAmount}},
         );
         if (!user) {
             return res.status(404).send({ message: "User not found." });
@@ -41,7 +41,7 @@ const DeleteIncome = async (req, res) => {
     try {
         const user = await users.findOneAndUpdate(
             {},
-            { $pull: { incomeSorces: { source } } },
+            { $pull: { incomeSources: { source } } },
         )
         if (!user) {
             return res.status(404).send({ message: "User not found." });

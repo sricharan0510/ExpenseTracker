@@ -13,24 +13,25 @@ const Dashboard = () => {
                 console.error("Error fetching data:", error);
             });
     }, []);
+
     var totalIncome = 0;
     data.map(user => {
-        user.incomeSorces.map(inc => {
+        user.incomeSources.map(inc => {
             totalIncome += inc.incomeAmount;
         })
     })
+
     var totalExpenses = 0;
-    data.map((user) => {
-        user.expenses[0] && Object.keys(user.expenses[0])
-            .filter((key) => key !== "_id")
-            .map((date) => {
-                user.expenses[0][date].map(exp => {
-                    totalExpenses += exp.expenseAmount;
-                })
-            }
-            )
-    });
+    data.map(user => {
+        user.allExpenses.map(expObj => {
+            expObj.Expenses.map(exp => {
+                totalExpenses += exp.expenseAmount;
+            })
+        })
+    })
+
     var balanceAmount = totalIncome - totalExpenses;
+
     return (
         <div>
             <h1>Dashboard</h1>
@@ -38,7 +39,7 @@ const Dashboard = () => {
                 return (
                     <div key={user.id}>
                         <div className="card">
-                            <p style={{color: "black", fontSize:'20px'}}><b>Name of the User : </b><span>{user.name}</span> </p>
+                            <p style={{ color: "black", fontSize: '20px' }}><b>Name of the User : </b><span>{user.name}</span> </p>
                         </div>
                         <div className="card-grid">
                             <div className="card">

@@ -23,8 +23,8 @@ const Incomes = () => {
     const prepareChartData = (users) => {
         if (users.length > 0) {
             const user = users[0];
-            const labels = user.incomeSorces.map((inc) => inc.source);
-            const amounts = user.incomeSorces.map((inc) => inc.incomeAmount);
+            const labels = user.incomeSources.map((inc) => inc.source);
+            const amounts = user.incomeSources.map((inc) => inc.incomeAmount);
 
             setChartData({
                 labels,
@@ -65,7 +65,7 @@ const Incomes = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {user.incomeSorces.map((inc) => {
+                                    {user.incomeSources.map((inc) => {
                                         return (
                                             <tr key={inc._id}>
                                                 <td>{inc.source}</td>

@@ -45,32 +45,30 @@ const AllExpenses = () => {
                 <tbody>
                   {selectedDate
                     ? data.map((user) => {
-                      const expensesForDate = user.expenses[0][selectedDate];
+                      const expensesForDate = user.allExpenses.find(
+                        (expenseObj) => new Date(expenseObj.ExpDate).toISOString().split('T')[0] === selectedDate
+                      );
                       return (
-                        expensesForDate ?
-                          user.expenses[0] &&
-                          Object.keys(user.expenses[0])
-                            .filter((key) => key === selectedDate)
-                            .map((date) =>
-                              user.expenses[0][date].map((exp, index) => (
-                                <tr key={`${date}-${index}`}>
-                                  {index === 0 ? (
-                                    <td rowSpan={user.expenses[0][date].length}>{date}</td>
-                                  ) : null}
-                                  <td>{exp.expenseName}</td>
-                                  <td>{exp.expenseAmount}</td>
-                                  <td>{exp.category}</td>
-                                  <td>{exp.priority}</td>
-                                  <td>{exp.paymentMethod}</td>
-                                </tr>
-                              ))
-                            )
-                          :
+                        expensesForDate ? (
+                          expensesForDate.Expenses.map((exp, index) => (
+                            <tr key={`${selectedDate}-${index}`}>
+                              {index === 0 ? (
+                                <td rowSpan={expensesForDate.Expenses.length}>{new Date(selectedDate).toLocaleDateString('en-GB').replace(/\//g, '-')}</td>
+                              ) : null}
+                              <td>{exp.expenseName}</td>
+                              <td>{exp.expenseAmount}</td>
+                              <td>{exp.category}</td>
+                              <td>{exp.priority}</td>
+                              <td>{exp.paymentMethod}</td>
+                            </tr>
+                          ))
+                        ) : (
                           <tr>
                             <td colSpan="6" style={{ textAlign: 'center' }}>
                               No Expenses Found for the selected date!
                             </td>
                           </tr>
+                        )
                       );
                     })
                     : (
@@ -79,7 +77,9 @@ const AllExpenses = () => {
                           No Expenses Found!
                         </td>
                       </tr>
-                    )}
+                    )
+                  }
+
                 </tbody>
               </table>
             </>

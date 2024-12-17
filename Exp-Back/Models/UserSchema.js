@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const expensesSchema = new mongoose.Schema({
+const AllExpenses = new mongoose.Schema({
     expenseName: {
         type: String,
         required: true,
@@ -26,6 +26,17 @@ const expensesSchema = new mongoose.Schema({
     }
 });
 
+const expensesSchema = new mongoose.Schema({
+    ExpDate: {
+        type: Date,
+        required: true,
+    },
+    Expenses: {
+        type: [AllExpenses],
+        required: true
+    }
+});
+
 const incomeSchema = new mongoose.Schema({
     source: {
         type: String,
@@ -37,20 +48,17 @@ const incomeSchema = new mongoose.Schema({
     },
 });
 
-
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
-    incomeSorces: {
-        type: Array,
-        of: incomeSchema,
+    incomeSources: { 
+        type: [incomeSchema],
         default: [],
     },
-    expenses: {
-        type: Array,
-        of: expensesSchema,
+    allExpenses: {
+        type: [expensesSchema],
         default: []
     },
     savingTarget: {
@@ -58,6 +66,7 @@ const userSchema = new mongoose.Schema({
         required: true,
     }
 });
+
 
 const users = mongoose.model("users", userSchema);
 module.exports = users;
