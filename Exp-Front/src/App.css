@@ -10,7 +10,7 @@ body, html {
     width: 250px;
     background: #2c2c2c;
     color: white;
-    height: 100svh;
+    height: 100vh;
     padding: 20px;
   }
   
@@ -113,4 +113,42 @@ body, html {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+  }
+
+  /* AllExpenses Page */
+
+  .headingAndIpDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  } 
+  .myTable {
+    border-collapse: collapse;
+    text-align: center;
+    margin: auto;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .dateIp {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .datesIpDiv {
+    display: flex;
+    gap: 20px;
+  }
+  .myTable thead {
+    background: #2F3C54;
+    color: white;
+    /* border: none; */
+  }
+  .myTable th, .myTable td {
+    padding:20px 30px;
+  }                                     
+  tbody tr:hover {
+    background-color: #f0f0f0;  
+    transition: background-color 0.3s ease;
   }

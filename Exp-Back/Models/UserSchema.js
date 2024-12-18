@@ -11,7 +11,8 @@ const AllExpenses = new mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ['Expense', 'Saving', 'Investment'],
+        enum: [
+            "Food", "Utilities", "Investment", "Savings", "Transportation", "Health & Wellness", "Shopping"],          
         required: true,
     },
     priority: {
@@ -53,7 +54,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    incomeSources: { 
+    incomeSources: {
         type: [incomeSchema],
         default: [],
     },

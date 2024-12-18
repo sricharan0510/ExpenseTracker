@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+import '../App.css';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -57,7 +58,7 @@ const Incomes = () => {
                             <p style={{ fontSize: '18px', color: 'black' }}>
                                 All Income Sources of {user.name}!
                             </p>
-                            <table border="1" cellPadding="20" style={{ borderCollapse: 'collapse', textAlign: 'center' }}>
+                            <table border="1" className="myTable">
                                 <thead>
                                     <tr>
                                         <th>Source</th>
