@@ -26,14 +26,14 @@ function App() {
             <li className={activeLink === "/allExpenses" ? "active" : ""} onClick={() => setActiveLink("/allExpenses")}>
               <Link to="/allExpenses">Expenses</Link>
             </li>
+            <li className={activeLink === "/expcat" ? "active" : ""} onClick={() => setActiveLink("/expcat")}>
+              <Link to="/expcat">Exp Categories</Link>
+            </li>
             <li className={activeLink === "/audinc" ? "active" : ""} onClick={() => setActiveLink("/audinc")}>
               <Link to="/audinc">AUD-Incomes</Link>
             </li>
             <li className={activeLink === "/audexp" ? "active" : ""} onClick={() => setActiveLink("/audexp")}>
               <Link to="/audexp">AUD-Expenses</Link>
-            </li>
-            <li className={activeLink === "/expcat" ? "active" : ""} onClick={() => setActiveLink("/expcat")}>
-              <Link to="/expcat">Exp Categories</Link>
             </li>
           </ul>
         </nav>
@@ -42,9 +42,9 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/incomes" element={<Incomes />} />
             <Route path="/allExpenses" element={<AllExpenses />} />
+            <Route path="/expcat" element={<ExpCat />} />
             <Route path="/audinc" element={<AUDinc />} />
             <Route path="/audexp" element={<AUDexp />} />
-            <Route path="/expcat" element={<ExpCat />} />
           </Routes>
         </div>
       </div>
