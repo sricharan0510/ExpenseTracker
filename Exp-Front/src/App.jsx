@@ -6,6 +6,7 @@ import Incomes from "./Components/Incomes";
 import AllExpenses from "./Components/AllExpenses";
 import AUDexp from "./Components/AUDexp";
 import AUDinc from "./Components/AUDinc";
+import ExpCat from "./Components/ExpCat";
 import "./App.css";
 
 function App() {
@@ -31,6 +32,9 @@ function App() {
             <li className={activeLink === "/audexp" ? "active" : ""} onClick={() => setActiveLink("/audexp")}>
               <Link to="/audexp">AUD-Expenses</Link>
             </li>
+            <li className={activeLink === "/expcat" ? "active" : ""} onClick={() => setActiveLink("/expcat")}>
+              <Link to="/expcat">Exp Categories</Link>
+            </li>
           </ul>
         </nav>
         <div className="main-content">
@@ -40,6 +44,7 @@ function App() {
             <Route path="/allExpenses" element={<AllExpenses />} />
             <Route path="/audinc" element={<AUDinc />} />
             <Route path="/audexp" element={<AUDexp />} />
+            <Route path="/expcat" element={<ExpCat />} />
           </Routes>
         </div>
       </div>
