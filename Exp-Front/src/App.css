@@ -128,8 +128,7 @@ body, html {
     border-collapse: collapse;
     text-align: center;
     margin: auto;
-    border-radius: 20px;
-    overflow: hidden;
+    border-radius: 10px;
   }
   .dateIp {
     padding: 10px;
@@ -152,3 +151,5 @@ body, html {
     background-color: #f0f0f0;  
     transition: background-color 0.3s ease;
   }
+
+  

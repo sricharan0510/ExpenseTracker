@@ -15,7 +15,7 @@ function AUDinc() {
   const [dltIncSrc, setDltIncSrc] = useState('')
 
   const handleAddIncome = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (!addIncSrc || !addIncAmt) {
       alert("Please fill in both fields before submitting.");
       return;

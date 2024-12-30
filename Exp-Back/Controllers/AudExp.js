@@ -1,5 +1,5 @@
 const express = require("express");
-const users = require("../Models/UserSchema");
+const users = require("../Models/Schemas");
 
 const addExpense = async (req, res) => {
   const { edate, ename, eamt, ecat, epri, epm } = req.body;
@@ -19,22 +19,22 @@ const addExpense = async (req, res) => {
           paymentMethod: epm
         });
       }
-    })
-    user.allExpenses.push({
-      ExpDate: formattedDate,
-      Expenses: [{
-        expenseName: ename,
-        expenseAmount: eamt,
-        category: ecat,
-        priority: epri,
-        paymentMethod: epm
-      }],
     });
-    res.status(201).send({ message: "Expense added successfully.", user });
+  user.allExpenses.push({
+    ExpDate: formattedDate,
+    Expenses: [{
+      expenseName: ename,
+      expenseAmount: eamt,
+      category: ecat,
+      priority: epri,
+      paymentMethod: epm
+    }],
+  });
+res.status(201).send({ message: "Expense added successfully.", user });
   } catch (error) {
-    console.error("Error adding expense:", error);
-    res.status(500).send({ message: "Error adding expense.", error });
-  }
+  console.error("Error adding expense:", error);
+  res.status(500).send({ message: "Error adding expense.", error });
+}
 };
 
 module.exports = { addExpense };
