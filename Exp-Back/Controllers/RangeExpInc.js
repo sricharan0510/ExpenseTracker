@@ -5,7 +5,8 @@ const expensesRange = async (req, res) => {
     const { startDate, endDate } = req.body;
     try {
         const data = await expenses.find({
-            userId: userId, date: {
+            userId: userId,
+            date: {
                 $gte: new Date(startDate).toISOString(),
                 $lte: new Date(endDate).toISOString()
             }
@@ -26,20 +27,20 @@ const incomesRange = async (req, res) => {
     const { userId } = req.params;
     const { startDate, endDate } = req.body;
     try {
-        const data = incomes.find({
+        const data = await incomes.find({
             userId: userId,
             date: {
                 $gte: new Date(startDate).toISOString(),
                 $lte: new Date(endDate).toISOString()
             }
         })
-        if(!data || data.length == 0) {
-            return res.status(404).json({message: "No Incomes Found"});
+        if (!data || data.length == 0) {
+            return res.status(404).json({ message: "No Incomes Found" });
         }
         res.status(299).json(data);
     }
     catch (err) {
-        res.status(404).json({message: err.message})
+        res.status(404).json({ message: err.message })
     }
 }
 exports.incomesRange = incomesRange
