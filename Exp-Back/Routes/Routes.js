@@ -5,7 +5,7 @@ const { UserDetails, checkUser } = require('../Controllers/UserAllDetails');
 const { UserTotalIncome, UserTotalExpense } = require('../Controllers/TotalIncAndExp');
 const { userIncomes, addIncome, updateIncome, deleteIncome } = require('../Controllers/IncomeAUD');
 const { userExpenses, addExpense, updateExpense, deleteExpense } = require('../Controllers/ExpenseAUD')
-const { expensesRange } = require('../Controllers/RangeExpInc');
+const { expensesRange, incomesRange } = require('../Controllers/RangeExpInc');
 
 Route.post('/checkUser', checkUser);
 
@@ -25,5 +25,6 @@ Route.post('/:userId/updateExpense', updateExpense);
 Route.post('/:userId/deleteExpense', deleteExpense);
 
 Route.post('/:userId/expensesRange', expensesRange);
+Route.post('/:userId/incomesRange', incomesRange);
 
 module.exports = Route;
