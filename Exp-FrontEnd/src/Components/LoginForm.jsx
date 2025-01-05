@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import '../App.css'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
     const [userId, setUserId] = useState('');
