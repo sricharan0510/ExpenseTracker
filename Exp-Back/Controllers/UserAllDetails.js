@@ -1,10 +1,26 @@
 const {users} = require("../Models/Schemas");
 
+const checkUser = async (req, res) => {
+    const { userId, password } = req.body;
+    try {
+        const data = await users.find({ userId: userId, password: password });
+        if (!data || data.length === 0) {
+            return res.status(404).json({ message: "No data found" });
+        }
+        res.status(200).json(data);
+    }
+    catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+}
+exports.checkUser = checkUser;
+
 const UserDetails = async (req, res) => {
+    const { userId } = req.params;
     try {
         const data = await users.aggregate([
             {
-                $match: { userId: "U001" }
+                $match: { userId: userId }
             },
             {
                 $lookup: {
@@ -28,6 +44,7 @@ const UserDetails = async (req, res) => {
                     userId: 1,
                     name: 1,
                     email: 1,
+                    password: 1,
                     savingTarget: 1,
                     incomeDetails: 1,
                     expenseDetails: 1
