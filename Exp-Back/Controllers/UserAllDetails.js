@@ -1,4 +1,4 @@
-const {users} = require("../Models/Schemas");
+const { users } = require("../Models/Schemas");
 
 const checkUser = async (req, res) => {
     const { userId, password } = req.body;

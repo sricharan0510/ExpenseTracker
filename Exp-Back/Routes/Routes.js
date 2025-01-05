@@ -6,7 +6,7 @@ const { UserTotalIncome, UserTotalExpense } = require('../Controllers/TotalIncAn
 const { userIncomes, addIncome, updateIncome, deleteIncome } = require('../Controllers/IncomeAUD');
 
 Route.post('/checkUser', checkUser);
-Route.get('/UserDetails', UserDetails);
+Route.get('/UserDetails/:userId', UserDetails);
 Route.get('/UserTotalIncome', UserTotalIncome);
 Route.get('/UserTotalExpense', UserTotalExpense);
 Route.get('/userIncomes', userIncomes);
