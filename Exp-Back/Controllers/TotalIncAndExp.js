@@ -2,9 +2,10 @@ const { incomes, expenses } = require('../Models/Schemas');
 
 const UserTotalIncome = async (req, res) => {
     try {
+        const { userId } = req.params;
         const data = await incomes.aggregate([
             {
-                $match: { userId: "U001" }
+                $match: { userId: userId }
             },
             {
                 $group: {
@@ -25,9 +26,10 @@ const UserTotalIncome = async (req, res) => {
 
 const UserTotalExpense = async (req, res) => {
     try {
+        const { userId } = req.params;
         const data = await expenses.aggregate([
             {
-                $match: { userId: "U001" }
+                $match: { userId: userId }
             },
             {
                 $group: {
