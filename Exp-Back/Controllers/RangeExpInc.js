@@ -2,16 +2,19 @@ const { expenses, incomes } = require('../Models/Schemas');
 
 const expensesRange = async (req, res) => {
     const { userId } = req.params;
-    const { startDate, endDate } = req.body;
+    const { fromDate, toDate } = req.body;
     try {
-        const data = await expenses.find({
-            userId: userId,
-            date: {
-                $gte: new Date(startDate).toISOString(),
-                $lte: new Date(endDate).toISOString()
+        const data = await expenses.aggregate([
+            {
+                $match: {
+                    userId: userId,
+                    date: {
+                        $gte: new Date(fromDate).toISOString(),
+                        $lte: new Date(toDate).toISOString()
+                    }
+                }
             }
-        });
-        console.log(data);
+        ])
         if (!data || data.length === 0) {
             return res.status(404).json({ message: "No Expenses found" });
         }
@@ -23,18 +26,23 @@ const expensesRange = async (req, res) => {
 };
 exports.expensesRange = expensesRange;
 
+
 const incomesRange = async (req, res) => {
     const { userId } = req.params;
-    const { startDate, endDate } = req.body;
+    const { fromDate, toDate } = req.body;
     try {
-        const data = await incomes.find({
-            userId: userId,
-            date: {
-                $gte: new Date(startDate).toISOString(),
-                $lte: new Date(endDate).toISOString()
+        const data = await incomes.aggregate([
+            {
+                $match: {
+                    userId: userId,
+                    date: {
+                        $gte: new Date(fromDate).toISOString(),
+                        $lte: new Date(toDate).toISOString()
+                    }
+                }
             }
-        })
-        if (!data || data.length == 0) {
+        ])
+        if (!data || data.length === 0) {
             return res.status(404).json({ message: "No Incomes Found" });
         }
         res.status(299).json(data);
