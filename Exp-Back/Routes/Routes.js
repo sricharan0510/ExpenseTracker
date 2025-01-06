@@ -2,10 +2,11 @@ const express = require('express')
 const Route = express.Router();
 
 const { UserDetails, checkUser } = require('../Controllers/UserAllDetails');
-const { UserTotalIncome, UserTotalExpense } = require('../Controllers/TotalIncAndExp');
+const { UserTotalIncome, UserTotalExpense, ExpCatSum } = require('../Controllers/TotalIncAndExp');
 const { userIncomes, addIncome, updateIncome, deleteIncome } = require('../Controllers/IncomeAUD');
 const { userExpenses, addExpense, updateExpense, deleteExpense } = require('../Controllers/ExpenseAUD')
 const { expensesRange, incomesRange } = require('../Controllers/RangeExpInc');
+const { ExpFilter } = require('../Controllers/ExpFilter');
 
 Route.post('/checkUser', checkUser);
 
@@ -13,6 +14,7 @@ Route.get('/:userId/UserDetails', UserDetails);
 
 Route.get('/:userId/UserTotalIncome', UserTotalIncome);
 Route.get('/:userId/UserTotalExpense', UserTotalExpense);
+Route.post('/:userId/ExpCatSum', ExpCatSum)
 
 Route.get('/:userId/userIncomes', userIncomes);
 Route.post('/:userId/addIncome', addIncome);
@@ -26,5 +28,7 @@ Route.post('/:userId/deleteExpense', deleteExpense);
 
 Route.post('/:userId/expensesRange', expensesRange);
 Route.post('/:userId/incomesRange', incomesRange);
+
+Route.post('/:userId/ExpFilter', ExpFilter);
 
 module.exports = Route;
