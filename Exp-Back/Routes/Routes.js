@@ -1,7 +1,7 @@
 const express = require('express')
 const Route = express.Router();
 
-const { UserDetails, checkUser } = require('../Controllers/UserAllDetails');
+const { checkUser, UserDetails } = require('../Controllers/UserAllDetails');
 const { UserTotalIncome, UserTotalExpense, ExpCatSum } = require('../Controllers/AmountSum');
 const { userIncomes, addIncome, updateIncome, deleteIncome } = require('../Controllers/IncomeAUD');
 const { userExpenses, addExpense, updateExpense, deleteExpense } = require('../Controllers/ExpenseAUD')
