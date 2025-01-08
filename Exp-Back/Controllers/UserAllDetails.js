@@ -59,7 +59,9 @@ const UserDetails = async (req, res) => {
                     savingTarget: 1,
                     totalIncome: 1,
                     totalExpense: 1,
-                    balanceAmount: 1
+                    balanceAmount: 1,
+                    // incomeDetails: 1,
+                    // expenseDetails: 1
                 }
             }
         ]);
