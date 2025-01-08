@@ -7,7 +7,7 @@ const checkUser = async (req, res) => {
         if (!data || data.length === 0) {
             return res.status(404).json({ message: "No data found" });
         }
-        res.status(200).json({ message: "Login Successfull" });
+        res.status(200).json(data);
     }
     catch (err) {
         res.status(404).json({ message: err.message });
@@ -39,6 +39,17 @@ const UserDetails = async (req, res) => {
                 }
             },
             {
+                $addFields: {
+                    totalIncome: { $sum: "$incomeDetails.incomeAmount" },
+                    totalExpense: { $sum: "$expenseDetails.expenseAmount" }
+                }
+            },
+            {
+                $addFields: {
+                    balanceAmount: { $subtract: ["$totalIncome", "$totalExpense"] },
+                }
+            },
+            {
                 $project: {
                     _id: 0,
                     userId: 1,
@@ -46,8 +57,9 @@ const UserDetails = async (req, res) => {
                     email: 1,
                     password: 1,
                     savingTarget: 1,
-                    incomeDetails: 1,
-                    expenseDetails: 1
+                    totalIncome: 1,
+                    totalExpense: 1,
+                    balanceAmount: 1
                 }
             }
         ]);

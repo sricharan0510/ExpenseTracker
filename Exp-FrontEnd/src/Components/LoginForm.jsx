@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import axios from 'axios'
-import '../App.css'
+import React, { useState } from 'react';
+import axios from 'axios';
+import '../App.css';
 import { useNavigate } from 'react-router-dom';
 
 function LoginForm() {
@@ -19,9 +19,9 @@ function LoginForm() {
             password: password
         }).then((res) => {
             if (res.data) {
-                console.log("Login Success")
-                console.log(res.data);
-                navigate(`/dashboard/${res.data.userId}`);
+                console.log("Login Success");
+                console.log(res.data[0].userId);
+                navigate(`/UserPage/${res.data[0].userId}`);
             } else {
                 alert('Invalid UserID or Password.');
             }
@@ -31,7 +31,7 @@ function LoginForm() {
         });
         setUserId('');
         setPassword('');
-    }
+    };
 
     return (
         <div className='loginBox'>
@@ -48,7 +48,7 @@ function LoginForm() {
                 </div>
             </form>
         </div>
-    )
+    );
 }
 
-export default LoginForm
+export default LoginForm;

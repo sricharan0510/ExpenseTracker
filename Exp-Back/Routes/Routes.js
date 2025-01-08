@@ -2,7 +2,7 @@ const express = require('express')
 const Route = express.Router();
 
 const { checkUser, UserDetails } = require('../Controllers/UserAllDetails');
-const { UserTotalIncome, UserTotalExpense, ExpCatSum } = require('../Controllers/AmountSum');
+const {  ExpCatSum } = require('../Controllers/AmountSum');
 const { userIncomes, addIncome, updateIncome, deleteIncome } = require('../Controllers/IncomeAUD');
 const { userExpenses, addExpense, updateExpense, deleteExpense } = require('../Controllers/ExpenseAUD')
 const { expensesRange, incomesRange, ExpFilter } = require('../Controllers/Filtering');
@@ -11,8 +11,6 @@ Route.post('/checkUser', checkUser);
 
 Route.get('/:userId/UserDetails', UserDetails);
 
-Route.get('/:userId/UserTotalIncome', UserTotalIncome);
-Route.get('/:userId/UserTotalExpense', UserTotalExpense);
 Route.post('/:userId/ExpCatSum', ExpCatSum)
 
 Route.get('/:userId/userIncomes', userIncomes);

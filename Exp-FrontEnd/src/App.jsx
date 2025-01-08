@@ -1,13 +1,17 @@
-import React from 'react'
-import './App.css'
-import LoginForm from './Components/LoginForm'
-function App() {
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginForm from './Components/LoginForm';
+import UserPage from './Components/UserPage';
 
+function App() {
   return (
-    <>
-      <LoginForm />
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginForm />} />
+        <Route path='/UserPage/:userId/*' element={<UserPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
