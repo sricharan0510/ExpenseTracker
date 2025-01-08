@@ -7,7 +7,7 @@ const checkUser = async (req, res) => {
         if (!data || data.length === 0) {
             return res.status(404).json({ message: "No data found" });
         }
-        res.status(200).json(data);
+        res.status(200).json({ message: "Login Successfull" });
     }
     catch (err) {
         res.status(404).json({ message: err.message });

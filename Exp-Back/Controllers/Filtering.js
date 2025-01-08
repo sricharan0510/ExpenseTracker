@@ -63,14 +63,14 @@ const ExpFilter = async (req, res) => {
     const { userId } = req.params;
     const filterFields = req.body;
     try {
-        const matchCriteria = { userId: userId };
+        const mc = { userId: userId };
         for (const [key, value] of Object.entries(filterFields)) {
-            if (true) matchCriteria[key] = value;
+            if (true) mc[key] = value;
         }
 
         const data = await expenses.aggregate([
             {
-                $match: matchCriteria
+                $match: mc
             }
         ])
         if (!data || data.length === 0) {
