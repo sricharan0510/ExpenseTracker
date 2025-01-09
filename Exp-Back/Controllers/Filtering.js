@@ -30,6 +30,11 @@ exports.incomesRange = incomesRange
 const expensesRange = async (req, res) => {
     const { userId } = req.params;
     var { fromDate, toDate, category } = req.body;
+    const fd = fromDate.replace(/-/g, '');
+    const td = toDate.replace(/-/g, '');
+    if(td < fd) {
+        return res.status(400).json({message : "Invalid Date Formate"})
+    }
     if (toDate === undefined || toDate === "") {
         toDate = new Date().toISOString().split('T')[0];
     }
