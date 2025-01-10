@@ -16,6 +16,8 @@ function Incomes() {
   const [updateIncSrc, setUpdateIncSrc] = useState("")
   const [updateIncAmt, setUpdateIncAmt] = useState("")
 
+  const [showDltBox, setShowDltBox] = useState(false);
+  const[dltIncSrc, setDltIncSrc] = useState("");
 
   useEffect(() => {
     axios.get(`http://localhost:9000/${userId}/userIncomes`)
@@ -55,13 +57,58 @@ function Incomes() {
       });
   };
 
+
   const openUpdateBox = () => {
     setShowUpdateBox(true);
   }
   const closeUpdateBox = () => {
     setShowUpdateBox(false);
   }
+  const handleUpdateIncome = (e) => {
+    if (!updateIncSrc || !updateIncAmt) {
+      alert("Please fill all details");
+      return;
+    }
+    axios
+      .post(`http://localhost:9000/${userId}/updateIncome`, {
+        source: updateIncSrc,
+        newIncomeAmount: parseFloat(updateIncAmt),
+      })
+      .then((res) => {
+        alert("Income Updated successfully!");
+        setShowUpdateBox(false);
+      })
+      .catch((error) => {
+        console.error("Error adding income:", error);
+        alert("Failed to Update income. Please try again.");
+      });
+  };
 
+
+  const openDltBox = () => {
+    setShowDltBox(true);
+  }
+  const CloseDltBox = () => {
+    setShowDltBox(false);
+  }
+  const handleDeleteInc = (e) => {
+    if (!dltIncSrc) {
+      alert("Please fill in the field before submitting.");
+      return;
+    }
+    axios.post(`http://localhost:9000/${userId}/deleteIncome`, {
+      source: dltIncSrc,
+    })
+      .then((res) => {
+        alert("Income deleted successfully!");
+        setShowDltBox(false);
+      })
+      .catch((err) => {
+        console.error("Error deleting income:", err);
+        alert("Failed to delete income. Please try again.");
+      }
+      );
+  }
 
   return (
     <div className='container'>
@@ -88,8 +135,8 @@ function Incomes() {
       </div>
       <div className='btns'>
         <button className='btn b1' onClick={openAddBox}>Add Income</button>
-        <button className='btn b2'>Update Income</button>
-        <button className='btn b3'>Delete Income</button>
+        <button className='btn b2' onClick={openUpdateBox}>Update Income</button>
+        <button className='btn b3' onClick={openDltBox}>Delete Income</button>
       </div>
 
       {showAddBox && (
@@ -114,76 +161,46 @@ function Incomes() {
         </div>
       )}
 
+      {showUpdateBox && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className='addincAndClose'>
+              <h2>Update Income</h2>
+              <button className="close-btn" onClick={closeUpdateBox}>X</button>
+            </div>
+            <form onSubmit={handleUpdateIncome}>
+              <div className='formInputs'>
+                <label>Income Source :</label>
+                <input type="text" placeholder="Enter Income Source" onChange={(e) => setUpdateIncSrc(e.target.value)} />
+                <label>Income Amount :</label>
+                <input type="text" placeholder="Enter New Income Amount" onChange={(e) => setUpdateIncAmt(e.target.value)} />
+              </div>
+              <button type="submit" className='btn b2'>Update</button>
+            </form>
+          </div>
+        </div>
+      )}
 
+      {showDltBox && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className='addincAndClose'>
+              <h2>Delete Income</h2>
+              <button className="close-btn" onClick={CloseDltBox}>X</button>
+            </div>
+            <form onSubmit={handleDeleteInc}>
+              <div className='formInputs'>
+                <label>Income Source :</label>
+                <input type="text" placeholder="Enter Income Source" onChange={(e) => setDltIncSrc(e.target.value)} />
+              </div>
+              <button type="submit" className='btn b3'>Delete</button>
+            </form>
+          </div>
+        </div>
+      )}
 
     </div>
   )
 }
 
-export default Incomes
-
-
-// const handleAddIncome = (e) => {
-//   // e.preventDefault();
-//   if (!addIncSrc || !addIncAmt) {
-//     alert("Please fill in both fields before submitting.");
-//     return;
-//   }
-//   axios
-//     .post("http://localhost:9000/addIncome", {
-//       source: addIncSrc,
-//       incomeAmount: parseFloat(addIncAmt),
-//     })
-//     .then((response) => {
-//       alert("Income added successfully!");
-//       setAddbtnClicked(false);
-//       setAddIncSrc('');
-//       setAddIncAmt('');
-//     })
-//     .catch((error) => {
-//       console.error("Error adding income:", error);
-//       alert("Failed to add income. Please try again.");
-//     });
-// };
-// const handleUpdateInc = (e) => {
-//   e.preventDefault();
-//   if (!oldIncSrc || !updateIncAmt) {
-//     alert("Please fill in both fields before submitting.");
-//     return;
-//   }
-//   axios.post("http://localhost:9000/updateIncome", {
-//     source: oldIncSrc,
-//     newIncomeAmount: parseFloat(updateIncAmt),
-//   })
-//     .then((res) => {
-//       alert("Income updated successfully!");
-//       setUpdatebtnClicked(false);
-//       setOldIncSrc('');
-//       setUpdateIncAmt('');
-//     })
-//     .catch((err) => {
-//       console.error("Error updating income:", err);
-//       alert("Failed to update income. Please try again.");
-//     });
-// }
-
-// const handleDeleteInc = (e) => {
-//   e.preventDefault();
-//   if (!dltIncSrc) {
-//     alert("Please fill in the field before submitting.");
-//     return;
-//   }
-//   axios.post("http://localhost:9000/deleteIncome", {
-//     source: dltIncSrc,
-//   })
-//     .then((res) => {
-//       alert("Income deleted successfully!");
-//       setDltbtnClicked(false);
-//       setDltIncSrc('');
-//     })
-//     .catch((err) => {
-//       console.error("Error deleting income:", err);
-//       alert("Failed to delete income. Please try again.");
-//     }
-//     );
-// }
+export default Incomes;
