@@ -18,14 +18,14 @@ exports.userIncomes = userIncomes;
 
 const addIncome = async (req, res) => {
     const { userId } = req.params;
-    const { source, incomeAmount } = req.body;
+    const { source, incomeAmount, date } = req.body;
     try {
         const data = new incomes(
             {
                 userId: userId,
                 source: source,
                 incomeAmount: incomeAmount,
-                date: new Date()
+                date: new Date(date)
             }
         )
         const result = await data.save();
