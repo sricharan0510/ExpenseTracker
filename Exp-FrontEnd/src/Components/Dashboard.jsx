@@ -19,12 +19,12 @@ const Dashboard = () => {
     console.log("User Data: ", data[0]);
 
     return (
-        <div>
-            <h1>Dashboard</h1>
+        <div className="container">
+            <h1> User Dashboard</h1>
             {
                 data.map((user) => {
                     return (
-                        <div key={user.id}>
+                        <div key={user.id} className="user-info">
                             <div className="card">
                                 <p style={{ color: "black", fontSize: '20px' }}><b>Name of the User : </b><span>{user.name}</span> </p>
                             </div>
