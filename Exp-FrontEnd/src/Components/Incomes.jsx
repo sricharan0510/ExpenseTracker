@@ -149,11 +149,11 @@ function Incomes() {
             <form onSubmit={handleAddIncome}>
               <div className='formInputs'>
                 <label>Income Source :</label>
-                <input type="text" placeholder="Enter Income Source" onChange={(e) => setAddIncSrc(e.target.value)} />
+                <input className='box-input' type="text" placeholder="Enter Income Source" onChange={(e) => setAddIncSrc(e.target.value)} />
                 <label>Income Amount :</label>
-                <input type="text" placeholder="Enter Income Amount" onChange={(e) => setAddIncAmt(e.target.value)} />
+                <input className='box-input' type="text" placeholder="Enter Income Amount" onChange={(e) => setAddIncAmt(e.target.value)} />
                 <label>Date :</label>
-                <input type="date" placeholder="Enter Date" onChange={(e) => setAddIncDate(e.target.value)} />
+                <input className='box-input' type="date" placeholder="Enter Date" onChange={(e) => setAddIncDate(e.target.value)} />
               </div>
               <button type="submit" className='btn b1'>Add</button>
             </form>
@@ -171,9 +171,9 @@ function Incomes() {
             <form onSubmit={handleUpdateIncome}>
               <div className='formInputs'>
                 <label>Income Source :</label>
-                <input type="text" placeholder="Enter Income Source" onChange={(e) => setUpdateIncSrc(e.target.value)} />
+                <input className='box-input' type="text" placeholder="Enter Income Source" onChange={(e) => setUpdateIncSrc(e.target.value)} />
                 <label>Income Amount :</label>
-                <input type="text" placeholder="Enter New Income Amount" onChange={(e) => setUpdateIncAmt(e.target.value)} />
+                <input className='box-input' type="text" placeholder="Enter New Income Amount" onChange={(e) => setUpdateIncAmt(e.target.value)} />
               </div>
               <button type="submit" className='btn b2'>Update</button>
             </form>
@@ -191,7 +191,7 @@ function Incomes() {
             <form onSubmit={handleDeleteInc}>
               <div className='formInputs'>
                 <label>Income Source :</label>
-                <input type="text" placeholder="Enter Income Source" onChange={(e) => setDltIncSrc(e.target.value)} />
+                <input className='box-input' type="text" placeholder="Enter Income Source" onChange={(e) => setDltIncSrc(e.target.value)} />
               </div>
               <button type="submit" className='btn b3'>Delete</button>
             </form>
