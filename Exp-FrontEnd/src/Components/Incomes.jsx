@@ -17,7 +17,7 @@ function Incomes() {
   const [updateIncAmt, setUpdateIncAmt] = useState("")
 
   const [showDltBox, setShowDltBox] = useState(false);
-  const[dltIncSrc, setDltIncSrc] = useState("");
+  const [dltIncSrc, setDltIncSrc] = useState("");
 
   useEffect(() => {
     axios.get(`http://localhost:9000/${userId}/userIncomes`)
@@ -41,12 +41,11 @@ function Incomes() {
       alert("Please fill all details");
       return;
     }
-    axios
-      .post(`http://localhost:9000/${userId}/addIncome`, {
-        source: addIncSrc,
-        incomeAmount: parseFloat(addIncAmt),
-        date: addIncDate
-      })
+    axios.post(`http://localhost:9000/${userId}/addIncome`, {
+      source: addIncSrc,
+      incomeAmount: parseFloat(addIncAmt),
+      date: addIncDate
+    })
       .then((response) => {
         alert("Income added successfully!");
         setShowAddBox(false);
