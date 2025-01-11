@@ -31,7 +31,7 @@ function Expenses() {
   console.log(category, paymentMethod, priority);
 
   const fetchFilteredData = () => {
-    console.log("Fetching filtered data with:", { category, paymentMethod, priority });
+    console.log({ category, paymentMethod, priority });
     axios.post(`http://localhost:9000/${userId}/ExpFilter`, {
       category: category || undefined,
       paymentMethod: paymentMethod || undefined,
@@ -66,14 +66,14 @@ function Expenses() {
           <option value="" disabled>
             Select a category
           </option>
-          <option value="Transportation">Transportation</option>
           <option value="Food">Food</option>
+          <option value="Transportation">Transportation</option>
           <option value="Utilities">Utilities</option>
           <option value="Entertainment">Entertainment</option>
           <option value="Health & Wellness">Health & Wellness</option>
           <option value="Shopping">Shopping</option>
           <option value="Education">Education</option>
-          <option value="All">All</option>
+          <option value="Other">Other</option>
         </select>
         <select
           id="paymentMethod"
@@ -88,7 +88,6 @@ function Expenses() {
           <option value="Card">Card</option>
           <option value="UPI">UPI</option>
           <option value="Bank Transfer">Bank Transfer</option>
-          <option value="All">All</option>
         </select>
         <select
           id="priority"
@@ -102,7 +101,6 @@ function Expenses() {
           <option value="High">High</option>
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
-          <option value="LAll">All</option>
         </select>
         <button className='sortBtn select-input'>Sort by Amount</button>
       </div>
