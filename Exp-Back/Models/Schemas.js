@@ -30,6 +30,6 @@ const expenseSchema = new mongoose.Schema({
 
 const users = mongoose.model("users", userSchema);
 const incomes = mongoose.model("incomes", incomeSchema);
-const expenses = mongoose.model("expenses", expenseSchema)
+const expenses = mongoose.model("expenses", expenseSchema) 
 
 module.exports = {users, incomes, expenses};
