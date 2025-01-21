@@ -4,46 +4,40 @@ import axios from 'axios';
 
 function Expenses() {
   const { userId } = useParams();
+  const [originalExpData, setOriginalExpData] = useState([]);
   const [expData, setExpData] = useState([]);
+
   useEffect(() => {
     axios.get(`http://localhost:9000/${userId}/userExpenses`)
       .then((res) => {
+        setOriginalExpData(res.data);
         setExpData(res.data);
       })
       .catch((err) => {
         console.log(err.message);
-      })
+      });
   }, [userId]);
 
   const [category, setCategory] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [priority, setPriority] = useState("");
 
-  const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
-  };
-  const handlepaymentMethodChange = (e) => {
-    setPaymentMethod(e.target.value);
-  }
-  const handlePriorityChange = (e) => {
-    setPriority(e.target.value);
-  }
-  console.log(category, paymentMethod, priority);
+  const handleCategoryChange = (e) => setCategory(e.target.value);
+  const handlePaymentMethodChange = (e) => setPaymentMethod(e.target.value);
+  const handlePriorityChange = (e) => setPriority(e.target.value);
 
   const fetchFilteredData = () => {
-    console.log({ category, paymentMethod, priority });
     axios.post(`http://localhost:9000/${userId}/ExpFilter`, {
       category: category || undefined,
       paymentMethod: paymentMethod || undefined,
-      priority: priority || undefined
+      priority: priority || undefined,
     })
       .then((res) => {
-        console.log("Filtered Expenses ", res.data);
         setExpData(res.data);
       })
       .catch((err) => {
         console.log("No Expenses with selected Filter");
-        setExpData(null)
+        setExpData([]);
       });
   };
 
@@ -52,15 +46,32 @@ function Expenses() {
   }, [category, paymentMethod, priority]);
 
   const dataSort = () => {
-    const sortExpData = [...expData].sort((a, b) => a.expenseAmount - b.expenseAmount)
-    setExpData(sortExpData)
-  }
+    const sortedExpData = [...expData].sort((a, b) => a.expenseAmount - b.expenseAmount);
+    setExpData(sortedExpData);
+  };
+
+  const handleSearchingExp = (e) => {
+    const searchQuery = e.target.value.toLowerCase();
+    if (searchQuery === "") {
+      setExpData(originalExpData);
+    } else {
+      const filteredData = originalExpData.filter((expense) =>
+        expense.expenseName.toLowerCase().startsWith(searchQuery)
+      );
+      setExpData(filteredData);
+    }
+  };
 
   return (
     <div className='container'>
       <h1>Expenses</h1>
       <div className='exp-search-div'>
-        <input type='text' className='expense-search-bar' placeholder='Search Expense' />
+        <input
+          type='text'
+          className='expense-search-bar'
+          placeholder='Search Expense'
+          onChange={handleSearchingExp}
+        />
       </div>
       <div className='filteringOptions'>
         <select
@@ -84,7 +95,7 @@ function Expenses() {
           id="paymentMethod"
           className="select-input"
           value={paymentMethod}
-          onChange={handlepaymentMethodChange}
+          onChange={handlePaymentMethodChange}
         >
           <option value="" disabled>
             Select Payment Method
@@ -107,30 +118,31 @@ function Expenses() {
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
-        <button className='sortBtn select-input' onClick={dataSort}>Sort by Amount</button>
+        <button className='sortBtn select-input' onClick={dataSort}>
+          Sort by Amount
+        </button>
       </div>
       <div className='card-grid'>
-        {
-          expData ? expData.map((exp) => {
-            return (
-              <div className="expense-card" key={exp.id}>
-                <div className="income-date">{new Date(exp.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}</div>
-                <div className="income-details">
-                  <span className="income-source">{exp.expenseName}</span>
-                  <span className="expense-amount">₹{exp.expenseAmount}</span>
-                </div>
+        {expData.length > 0 ? (
+          expData.map((exp) => (
+            <div className="expense-card" key={exp.id}>
+              <div className="income-date">{new Date(exp.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}</div>
+              <div className="income-details">
+                <span className="income-source">{exp.expenseName}</span>
+                <span className="expense-amount">₹{exp.expenseAmount}</span>
               </div>
-            )
-          }) :
-            <div className='noExpCard'>No Expenses with Selected Filter</div>
-        }
+            </div>
+          ))
+        ) : (
+          <div className='noExpCard'>No Expenses with Selected Filter</div>
+        )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Expenses
+export default Expenses;
