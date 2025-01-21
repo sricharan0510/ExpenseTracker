@@ -119,7 +119,7 @@ function Expenses() {
           <option value="Low">Low</option>
         </select>
         <button className='sortBtn select-input' onClick={dataSort}>
-          Sort by Amount
+          Sort by Amount (↑)
         </button>
       </div>
       <div className='card-grid'>
