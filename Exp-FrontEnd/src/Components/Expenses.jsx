@@ -33,6 +33,8 @@ function Expenses() {
       priority: priority || undefined,
     })
       .then((res) => {
+        console.log("Category:", category, "Payment Method:", paymentMethod, "Priority:", priority);
+        console.log("Filtered data received:", res.data);
         setExpData(res.data);
       })
       .catch((err) => {
