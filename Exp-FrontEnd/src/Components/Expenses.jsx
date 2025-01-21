@@ -52,7 +52,8 @@ function Expenses() {
   }, [category, paymentMethod, priority]);
 
   const dataSort = () => {
-    return expData.sort((a, b) => a.expenseAmount - b.expenseAmount);
+    console.log("abc")
+    setExpData(expData.sort((a, b) => a.expenseAmount - b.expenseAmount))
   }
 
   return (
