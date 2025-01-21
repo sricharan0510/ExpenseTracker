@@ -525,3 +525,11 @@ label {
 .sortBtn {
   font-weight: bold;
 }
+.noExpCard {
+  border-radius: 8px;
+  padding: 30px;
+  border: 1px solid #d32f2f;
+  text-align: center;
+  margin: 30px;
+  font-weight: 600;
+}

@@ -38,17 +38,22 @@ function Expenses() {
       priority: priority || undefined
     })
       .then((res) => {
-        console.log("Filtered data received:", res.data);
+        console.log("Filtered Expenses ", res.data);
         setExpData(res.data);
       })
       .catch((err) => {
-        console.log(`Request failed with status code ${err.response.status}`);
+        console.log("No Expenses with selected Filter");
+        setExpData(null)
       });
   };
 
   useEffect(() => {
     fetchFilteredData();
   }, [category, paymentMethod, priority]);
+
+  const dataSort = () => {
+    return expData.sort((a, b) => a.expenseAmount - b.expenseAmount);
+  }
 
   return (
     <div className='container'>
@@ -101,7 +106,7 @@ function Expenses() {
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
-        <button className='sortBtn select-input'>Sort by Amount</button>
+        <button className='sortBtn select-input' onClick={dataSort}>Sort by Amount</button>
       </div>
       <div className='card-grid'>
         {
@@ -120,7 +125,7 @@ function Expenses() {
               </div>
             )
           }) :
-            <div>No Expense data available</div>
+            <div className='noExpCard'>No Expenses with Selected Filter</div>
         }
       </div>
     </div>
