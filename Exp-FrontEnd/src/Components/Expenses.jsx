@@ -73,7 +73,6 @@ function Expenses() {
           <option value="Health & Wellness">Health & Wellness</option>
           <option value="Shopping">Shopping</option>
           <option value="Education">Education</option>
-          <option value="Other">Other</option>
         </select>
         <select
           id="paymentMethod"

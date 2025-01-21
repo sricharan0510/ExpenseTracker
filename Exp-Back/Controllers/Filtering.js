@@ -53,7 +53,7 @@ const expensesRange = async (req, res) => {
             }
         ])
         if (!data || data.length === 0) {
-            return res.status(404).json({ message: "No Expenses found" });
+            return res.status(404).json([]);
         }
         res.status(200).json(data);
     }
