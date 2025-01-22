@@ -45,6 +45,7 @@ function LoginForm() {
                     <input type="password" placeholder="Enter Password" name='password' value={password}
                         onChange={(e) => setPassword(e.target.value)} />
                     <button type="submit" className='lgnbtn' onClick={lgnbtnclick}>Login</button>
+                    <p style={{color: 'black'}}>Don't have an account? <a href=''>SignIn</a></p>
                 </div>
             </form>
         </div>
