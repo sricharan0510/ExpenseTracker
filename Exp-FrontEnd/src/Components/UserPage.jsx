@@ -5,6 +5,7 @@ import Dashboard from './Dashboard';
 import Incomes from './Incomes';
 import Expenses from './Expenses';
 import ExpRanges from './ExpRanges';
+import Statistics from './Statistics';
 
 function UserPage() {
     const { userId } = useParams();
@@ -32,6 +33,9 @@ function UserPage() {
                     <li className={activeLink === `/UserPage/${userId}/expRanges` ? "active" : ""}>
                         <Link to={`/UserPage/${userId}/expRanges`} onClick={() => setActiveLink(`/UserPage/${userId}/expRanges`)}>Expenses In Ranges</Link>
                     </li>
+                    <li className={activeLink === `/UserPage/${userId}/statistics` ? "active" : ""}>
+                        <Link to={`/UserPage/${userId}/statistics`} onClick={() => setActiveLink(`/UserPage/${userId}/statistics`)}>Statistics</Link>
+                    </li>
                 </ul>
             </nav>
             <div className="main-content">
@@ -40,6 +44,7 @@ function UserPage() {
                     <Route path="incomes" element={<Incomes />} />
                     <Route path="expenses" element={<Expenses />} />
                     <Route path="expRanges" element={<ExpRanges />} />
+                    <Route path="statistics" element={<Statistics />} />
                 </Routes>
             </div>
         </div>
