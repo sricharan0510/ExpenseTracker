@@ -10,6 +10,10 @@ function ExpRanges() {
     const [category, setCategory] = useState("");
 
     const fetchFilteredDataRange = () => {
+        if(fromDate === "" && category === "") {
+            alert("Please select atleast one filter");
+            return;
+        }
         console.log("From Date:", fromDate, "To Date:", toDate, "Category:", category);
         axios.post(`http://localhost:9000/${userId}/expensesRange`, {
             fromDate: fromDate || null,
