@@ -64,6 +64,71 @@ function Expenses() {
     }
   };
 
+  const [addExpenseBox, setAddExpenseBox] = useState(false);
+  const [addExpName, setAddExpName] = useState("");
+  const [addExpAmt, setAddExpAmt] = useState("");
+  const [addExpDate, setAddExpDate] = useState("");
+  const [addExpCat, setAddExpCat] = useState("");
+  const [addExpPayMethod, setAddExpPayMethod] = useState("");
+  const [addExpPriority, setAddExpPriority] = useState("");
+
+  const openAddExpebseBox = () => {
+    setAddExpenseBox(true);
+  }
+  const closeAddExpenseBox = () => {
+    setAddExpenseBox(false);
+  }
+  const handleAddExpense = (e) => {
+    if (!addExpName || !addExpAmt || !addExpDate || !addExpCat || !addExpPayMethod || !addExpPriority) {
+      alert("Please fill all details");
+      return;
+    }
+    axios.post(`http://localhost:9000/${userId}/addExpense`, {
+      expenseName: addExpName,
+      expenseAmount: parseFloat(addExpAmt),
+      date: addExpDate,
+      category: addExpCat,
+      paymentMethod: addExpPayMethod,
+      priority: addExpPriority
+    })
+      .then((response) => {
+        alert("Expense added successfully!");
+        setAddExpenseBox(false);
+      })
+      .catch((error) => {
+        console.error("Error adding expense:", error);
+        alert("Failed to add expense. Please try again.");
+      });
+  }
+
+  const [deleteExpenseBox, setDeleteExpenseBox] = useState(false);
+  const [dltExpName, setDltExpName] = useState("");
+
+  const openDeleteExpenseBox = () => {
+    setDeleteExpenseBox(true);
+  }
+  const closeDeleteExpenseBox = () => {
+    setDeleteExpenseBox(false);
+  }
+
+  const handleDeleteExpense = (e) => {
+    if (!dltExpName) {
+      alert("Please fill all details");
+      return;
+    }
+    axios.post(`http://localhost:9000/${userId}/deleteExpense`, {
+      expenseName: dltExpName
+    })
+      .then((response) => {
+        alert("Expense deleted successfully!");
+        setDeleteExpenseBox(false);
+      })
+      .catch((error) => {
+        console.error("Error deleting expense:", error);
+        alert("Failed to delete expense. Please try again.");
+      });
+  }
+
   return (
     <div className='container'>
       <h1>Expenses</h1>
@@ -143,6 +208,59 @@ function Expenses() {
           <div className='noExpCard'>No Expenses with Selected Filter</div>
         )}
       </div>
+
+      <div className='btns'>
+        <button className='btn b1' onClick={openAddExpebseBox}>Add Expense</button>
+        <button className='btn b2'>Update Expense</button>
+        <button className='btn b3' onClick={openDeleteExpenseBox}>Delete Expense</button>
+      </div>
+
+      {addExpenseBox && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className='addincAndClose'>
+              <h2>Add Expense</h2>
+              <button className="close-btn" onClick={closeAddExpenseBox}>X</button>
+            </div>
+            <form onSubmit={handleAddExpense}>
+              <div className='formInputs'>
+                <label>Expense Name :</label>
+                <input className='box-input' type="text" placeholder="Enter Expense Name" onChange={(e) => setAddExpName(e.target.value)} />
+                <label>Expense Amount :</label>
+                <input className='box-input' type="text" placeholder="Enter Expense Amount" onChange={(e) => setAddExpAmt(e.target.value)} />
+                <label>Date :</label>
+                <input className='box-input' type="date" placeholder="Enter Date" onChange={(e) => setAddExpDate(e.target.value)} />
+                <label>Category :</label>
+                <input className='box-input' type="text" placeholder="Enter Category" onChange={(e) => setAddExpCat(e.target.value)} />
+                <label>Payment Method :</label>
+                <input className='box-input' type="text" placeholder="Enter Payment Method" onChange={(e) => setAddExpPayMethod(e.target.value)} />
+                <label>Priority :</label>
+                <input className='box-input' type="text" placeholder="Enter Priority" onChange={(e) => setAddExpPriority(e.target.value)} />
+              </div>
+              <button type="submit" className='btn b1'>Add</button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {deleteExpenseBox && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div className='addincAndClose'>
+              <h2>Delete Expense</h2>
+              <button className="close-btn" onClick={closeDeleteExpenseBox}>X</button>
+            </div>
+            <form onSubmit={handleDeleteExpense}>
+              <div className='formInputs'>
+                <label>Expense Name :</label>
+                <input className='box-input' type="text" placeholder="Enter Expense Name" onChange={(e) => setDltExpName(e.target.value)} />
+              </div>
+              <button type="submit" className='btn b3'>Delete</button>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
