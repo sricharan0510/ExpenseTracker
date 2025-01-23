@@ -569,3 +569,14 @@ label {
   width: fit-content;
   padding: 10px 15px;
 }
+
+/* ======================================================================================== */
+.piecharts {
+  width: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 50px;
+}
