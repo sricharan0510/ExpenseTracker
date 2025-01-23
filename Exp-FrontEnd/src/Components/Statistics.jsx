@@ -4,7 +4,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, ArcEle
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-// Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 ChartJS.register(ArcElement, Tooltip, Legend);
 
