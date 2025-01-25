@@ -15,6 +15,19 @@ const checkUser = async (req, res) => {
 }
 exports.checkUser = checkUser;
 
+const addUser = async (req, res) => {
+    const { userId, name, email, password, savingTarget } = req.body;
+    try {
+        const data = new users({ userId, name, email, password, savingTarget });
+        await data.save();
+        res.status(200).json({message: "User added successfully"});
+    }
+    catch (err) {
+        res.status(404).json({ message: err.message });
+    }
+}
+exports.addUser = addUser;
+
 const UserDetails = async (req, res) => {
     const { userId } = req.params;
     try {
