@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     savingTarget: { type: Number, default: 0 },
+    password: {type: String, required: true},
 });
 
 const incomeSchema = new mongoose.Schema({
