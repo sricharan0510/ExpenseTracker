@@ -220,7 +220,7 @@ function Expenses() {
           <div className="modal">
             <div className='addincAndClose'>
               <h2>Add Expense</h2>
-              <button className="close-btn" onClick={closeAddExpenseBox}>X</button>
+              <button className="close-btn" onClick={closeAddExpenseBox}>Close</button>
             </div>
             <form onSubmit={handleAddExpense}>
               <div className='formInputs'>
@@ -248,7 +248,7 @@ function Expenses() {
           <div className="modal">
             <div className='addincAndClose'>
               <h2>Delete Expense</h2>
-              <button className="close-btn" onClick={closeDeleteExpenseBox}>X</button>
+              <button className="close-btn" onClick={closeDeleteExpenseBox}>Close</button>
             </div>
             <form onSubmit={handleDeleteExpense}>
               <div className='formInputs'>

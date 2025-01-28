@@ -143,7 +143,7 @@ function Incomes() {
           <div className="modal">
             <div className='addincAndClose'>
               <h2>Add Income</h2>
-              <button className="close-btn" onClick={closeAddBox}>X</button>
+              <button className="close-btn" onClick={closeAddBox}>Close</button>
             </div>
             <form onSubmit={handleAddIncome}>
               <div className='formInputs'>
@@ -165,7 +165,7 @@ function Incomes() {
           <div className="modal">
             <div className='addincAndClose'>
               <h2>Update Income</h2>
-              <button className="close-btn" onClick={closeUpdateBox}>X</button>
+              <button className="close-btn" onClick={closeUpdateBox}>Close</button>
             </div>
             <form onSubmit={handleUpdateIncome}>
               <div className='formInputs'>
@@ -185,7 +185,7 @@ function Incomes() {
           <div className="modal">
             <div className='addincAndClose'>
               <h2>Delete Income</h2>
-              <button className="close-btn" onClick={CloseDltBox}>X</button>
+              <button className="close-btn" onClick={CloseDltBox}>Close</button>
             </div>
             <form onSubmit={handleDeleteInc}>
               <div className='formInputs'>
