@@ -2,10 +2,11 @@ const express = require('express')
 const Route = express.Router();
 
 const { checkUser, addUser, UserDetails } = require('../Controllers/UserAllDetails');
-const {  ExpCatSum } = require('../Controllers/AmountSum');
+const { ExpCatSum } = require('../Controllers/AmountSum');
 const { userIncomes, addIncome, updateIncome, deleteIncome } = require('../Controllers/IncomeAUD');
 const { userExpenses, addExpense, updateExpense, deleteExpense } = require('../Controllers/ExpenseAUD')
 const { expensesRange, incomesRange, ExpFilter } = require('../Controllers/Filtering');
+const { MonthWiseData } = require('../Controllers/MonthlyExp')
 
 Route.post('/checkUser', checkUser);
 Route.post('/addUser', addUser);
@@ -27,5 +28,7 @@ Route.post('/:userId/deleteExpense', deleteExpense);
 Route.post('/:userId/expensesRange', expensesRange);
 Route.post('/:userId/incomesRange', incomesRange);
 Route.post('/:userId/ExpFilter', ExpFilter);
+
+Route.post('/:userId/:year/MonthWiseData', MonthWiseData)
 
 module.exports = Route;
