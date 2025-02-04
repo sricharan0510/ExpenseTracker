@@ -7,25 +7,23 @@ const YearTotal = async (req, res) => {
         const data = await expenses.aggregate([
             {
                 $match: {
-                    userId: userId
+                    userId: userId,
                 }
             },
             {
                 $group: {
-                    _id: { $year: "$date" },
-                    // year: { $year: "$date" },
+                    _id: { $month: "$date" },
                     totalYearExpense: { $sum: "$expenseAmount" }
                 }
             },
             {
-                $match: {
-                    year: yearNo,
-                    // totalYearExpense: 200
+                $sort : {
+                    _id : 1
                 }
             }
         ]);
         if (!data || data.length == 0) {
-            return res.status(404).json({ message: "Their is no data" });
+            return res.status(404).json({ message: "There is no data" });
         }
         return res.status(200).json(data)
     }
@@ -36,8 +34,7 @@ const YearTotal = async (req, res) => {
 exports.YearTotal = YearTotal;
 
 const MonthWiseData = async (req, res) => {
-    const { userId, year } = req.params;
-    const { monthName } = req.body;
+    const { userId, year, monthName } = req.params;
     try {
         const monthNames = {
             January: 1, February: 2, March: 3, April: 4, May: 5, June: 6, July: 7,
@@ -85,13 +82,6 @@ const MonthWiseData = async (req, res) => {
 
                 }
             },
-            { $sort: { "_id": 1 } }
-            // {
-            //     $group : {
-            //         _id : {$month : "$date"},
-            //         totalExpense: { $sum: "$expenseAmount" }
-            //     }
-            // }
         ]);
         if (!data || data.length === 0) {
             return res.status(404).json({ message: "Data Ledhu ra" });
@@ -104,3 +94,33 @@ const MonthWiseData = async (req, res) => {
 }
 
 exports.MonthWiseData = MonthWiseData;
+
+
+
+const monthlyTotal = async (req, res) => {
+    const { userId, year } = req.params;
+    try {
+        const data = await expenses.aggregate([
+            {
+                $match: {
+                    userId: userId
+                }
+            },
+            {
+                $group: {
+                    _id: { $month: "$date" },
+                    totalMonthExpense: { $sum: "$expenseAmount" }
+                }
+            },
+            {
+                $sort: {
+                    _id: 1
+                }
+            }
+        ])
+    }
+    catch (err) {
+        console.log(err.message);
+    }
+}
+exports.monthlyTotal = monthlyTotal;

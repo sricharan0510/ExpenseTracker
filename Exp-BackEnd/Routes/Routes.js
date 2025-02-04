@@ -6,7 +6,7 @@ const { ExpCatSum } = require('../Controllers/AmountSum');
 const { userIncomes, addIncome, updateIncome, deleteIncome } = require('../Controllers/IncomeAUD');
 const { userExpenses, addExpense, updateExpense, deleteExpense } = require('../Controllers/ExpenseAUD')
 const { expensesRange, incomesRange, ExpFilter } = require('../Controllers/Filtering');
-const {  MonthWiseData, YearTotal } = require('../Controllers/MonthlyExp')
+const {  MonthWiseData, YearTotal, monthlyTotal } = require('../Controllers/MonthlyExp')
 
 Route.post('/checkUser', checkUser);
 Route.post('/addUser', addUser);
@@ -30,7 +30,9 @@ Route.post('/:userId/incomesRange', incomesRange);
 Route.post('/:userId/ExpFilter', ExpFilter);
 
 // Route.post('/:userId/YearData', YearData)
-Route.post('/:userId/:year/MonthWiseData', MonthWiseData)
+// Route.post('/:userId/:year/MonthWiseData', MonthWiseData)
+Route.get('/:userId/:year/:monthName', MonthWiseData)
+Route.get('/:userId/:year/monthlyTotal', monthlyTotal)
 Route.get('/:userId/:yearNo', YearTotal)
 
 module.exports = Route;
