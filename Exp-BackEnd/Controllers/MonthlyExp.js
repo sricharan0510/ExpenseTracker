@@ -46,7 +46,7 @@ const MonthWiseData = async (req, res) => {
         const endOfMonth = new Date(startOfMonth);
         endOfMonth.setMonth(endOfMonth.getMonth() + 1);
         endOfMonth.setDate(0);
-        endOfMonth.setHours(23, 59, 59, 999);
+        endOfMonth.setHours(23, 59, 59, 999); 
         console.log(startOfMonth, endOfMonth)
         console.log(typeof (startOfMonth), endOfMonth)
         const data = await expenses.aggregate([
@@ -67,7 +67,8 @@ const MonthWiseData = async (req, res) => {
                             "Catogary": "$category",
                             "CatogaryAmount": "$expenseAmount"
                         }
-                    }
+                    },
+                    totalMonthExpense: { $sum: "$expenseAmount" }
                 }
             },
             {
@@ -117,10 +118,15 @@ const monthlyTotal = async (req, res) => {
                     _id: 1
                 }
             }
-        ])
+        ]);
+        if (!data || data.length === 0) {
+            return res.status(404).json({ message: "No data found" });
+        }
+        return res.status(200).json(data);
     }
     catch (err) {
         console.log(err.message);
+        return res.status(500).json({ message: "Internal server error" });
     }
 }
 exports.monthlyTotal = monthlyTotal;
