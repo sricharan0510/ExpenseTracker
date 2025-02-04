@@ -31,8 +31,9 @@ Route.post('/:userId/ExpFilter', ExpFilter);
 
 // Route.post('/:userId/YearData', YearData)
 // Route.post('/:userId/:year/MonthWiseData', MonthWiseData)
+Route.get('/:userId/:yearNo', YearTotal)
 Route.get('/:userId/:year/:monthName', MonthWiseData)
 Route.get('/:userId/:year/monthlyTotal', monthlyTotal)
-Route.get('/:userId/:yearNo', YearTotal)
+
 
 module.exports = Route;

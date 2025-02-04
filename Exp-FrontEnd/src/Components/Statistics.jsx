@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, ArcElement, Tooltip, Legend } from 'chart.js';
+// import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -105,7 +106,6 @@ function Statistics() {
             },
         ],
     }
-
 
     const options = {
         responsive: true,

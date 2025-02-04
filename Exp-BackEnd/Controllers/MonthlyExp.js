@@ -8,12 +8,16 @@ const YearTotal = async (req, res) => {
             {
                 $match: {
                     userId: userId,
+                    date : {
+                        $gte : new Date(`${yearNo}-01-01T00:00:00.000Z`),
+                        $lt : new Date(`${parseInt(yearNo)+1}-01-01T00:00:00.000Z`)
+                    }
                 }
             },
             {
                 $group: {
                     _id: { $month: "$date" },
-                    totalYearExpense: { $sum: "$expenseAmount" }
+                    totalMonthExpense: { $sum: "$expenseAmount" }
                 }
             },
             {
@@ -22,10 +26,17 @@ const YearTotal = async (req, res) => {
                 }
             }
         ]);
-        if (!data || data.length == 0) {
+
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const result = data.map(item => ({
+            month: monthNames[item._id - 1],
+            totalMonthExpense: item.totalMonthExpense
+        }));
+
+        if (!result || result.length == 0) {
             return res.status(404).json({ message: "There is no data" });
         }
-        return res.status(200).json(data)
+        return res.status(200).json(result);
     }
     catch (err) {
         console.log(err.message)

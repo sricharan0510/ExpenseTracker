@@ -5,7 +5,7 @@ import Dashboard from './Dashboard';
 import Incomes from './Incomes';
 import Expenses from './Expenses';
 import ExpRanges from './ExpRanges';
-import Statistics from './Statistics';
+import Stats from './Stats'
 
 function UserPage() {
     const { userId } = useParams();
@@ -44,7 +44,7 @@ function UserPage() {
                     <Route path="incomes" element={<Incomes />} />
                     <Route path="expenses" element={<Expenses />} />
                     <Route path="expRanges" element={<ExpRanges />} />
-                    <Route path="statistics" element={<Statistics />} />
+                    <Route path="statistics" element={<Stats />} />
                 </Routes>
             </div>
         </div>
