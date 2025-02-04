@@ -10,6 +10,7 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 function Statistics() {
     const { userId } = useParams();
     const [data, setData] = useState([]);
+    const [year, setYear] = useState(new Date().getFullYear());
 
     useEffect(() => {
         axios
@@ -122,6 +123,9 @@ function Statistics() {
     return (
         <div className="container">
             <h1>Statistics</h1>
+            <div>
+                <h3>This are the statistics of the year {year}</h3>
+            </div>
             <div style={{ width: '80%', margin: '0 auto' }}>
                 <Bar data={barChartData} options={options} />
             </div>

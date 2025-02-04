@@ -1,5 +1,40 @@
 const { expenses } = require('../Models/Schemas');
 
+const YearTotal = async (req, res) => {
+    const { userId, yearNo } = req.params;
+    try {
+        console.log(yearNo)
+        const data = await expenses.aggregate([
+            {
+                $match: {
+                    userId: userId
+                }
+            },
+            {
+                $group: {
+                    _id: { $year: "$date" },
+                    // year: { $year: "$date" },
+                    totalYearExpense: { $sum: "$expenseAmount" }
+                }
+            },
+            {
+                $match: {
+                    year: yearNo,
+                    // totalYearExpense: 200
+                }
+            }
+        ]);
+        if (!data || data.length == 0) {
+            return res.status(404).json({ message: "Their is no data" });
+        }
+        return res.status(200).json(data)
+    }
+    catch (err) {
+        console.log(err.message)
+    }
+}
+exports.YearTotal = YearTotal;
+
 const MonthWiseData = async (req, res) => {
     const { userId, year } = req.params;
     const { monthName } = req.body;
@@ -16,6 +51,7 @@ const MonthWiseData = async (req, res) => {
         endOfMonth.setDate(0);
         endOfMonth.setHours(23, 59, 59, 999);
         console.log(startOfMonth, endOfMonth)
+        console.log(typeof (startOfMonth), endOfMonth)
         const data = await expenses.aggregate([
             {
                 $match: {
@@ -29,11 +65,33 @@ const MonthWiseData = async (req, res) => {
             {
                 $group: {
                     _id: { $month: "$date" },
-                    totalExpense: { $sum: "$expenseAmount" },
-                    expenses: { $push: "$$ROOT" },
-                },
+                    expenses: {
+                        $push: {
+                            "Catogary": "$category",
+                            "CatogaryAmount": "$expenseAmount"
+                        }
+                    }
+                }
+            },
+            {
+                $unwind: "$expenses"
+            },
+            {
+                $group: {
+                    _id: "$expenses.Catogary",
+                    Amount: {
+                        $sum: "$expenses.CatogaryAmount"
+                    }
+
+                }
             },
             { $sort: { "_id": 1 } }
+            // {
+            //     $group : {
+            //         _id : {$month : "$date"},
+            //         totalExpense: { $sum: "$expenseAmount" }
+            //     }
+            // }
         ]);
         if (!data || data.length === 0) {
             return res.status(404).json({ message: "Data Ledhu ra" });
@@ -41,7 +99,7 @@ const MonthWiseData = async (req, res) => {
         return res.status(200).json(data)
     }
     catch (err) {
-        res.status(404).json({ message: "err.message" })
+        res.status(404).json({ message: err.message })
     }
 }
 
