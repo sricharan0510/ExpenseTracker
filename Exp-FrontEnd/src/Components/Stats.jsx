@@ -1,25 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import {
     Chart as ChartJS,
     CategoryScale,
     LinearScale,
     PointElement,
     LineElement,
+    BarElement,
     Title,
     Tooltip,
     Legend
 } from "chart.js";
-import { color } from "chart.js/helpers";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend);
+
 
 const Stats = () => {
     const { userId } = useParams();
-    const [year, setYear] = useState(2024);
+    const [year, setYear] = useState('2025');
     const [yearData, setYearData] = useState([]);
+
+    const [month, setMonth] = useState('')
+    const [monthData, setMonthData] = useState([])
 
     useEffect(() => {
         axios
@@ -29,27 +33,30 @@ const Stats = () => {
                 setYearData(modifiedData);
             })
             .catch((err) => console.error(err));
-    }, [year, userId]);
+    }, [year]);
 
-    console.log(yearData);
-
-    const chartLabels = yearData.map(data => data.month);
-    const chartData = yearData.map(data => data.totalMonthExpense);
-
+    useEffect(() => {
+        axios
+            .get(`http://localhost:9000/${userId}/${year}/${month}`)
+            .then((res) => {
+                setMonthData(res.data);
+            })
+            .catch((err) => console.error(err));
+    }, [month]);
 
     const lineChartData = {
-        labels: chartLabels,
+        labels: yearData.map(data => data.month),
         datasets: [
             {
                 label: "Monthly Expenses",
-                data: chartData,
+                data:  yearData.map(data => data.totalMonthExpense),
                 fill: false,
-                borderColor: "#4A90E2",  
-                pointBackgroundColor: "#4A90E2", 
+                borderColor: "#4A90E2",
+                pointBackgroundColor: "#4A90E2",
                 pointBorderColor: "#fff",
                 pointHoverRadius: 6,
                 pointHoverBorderWidth: 2,
-                tension: 0.3, 
+                // tension: 0.3,
             },
         ],
     };
@@ -57,6 +64,15 @@ const Stats = () => {
     const lineChartOptions = {
         responsive: true,
         maintainAspectRatio: false,
+        onClick: (event, elements) => {
+            if (elements.length > 0) {
+                const element = elements[0];
+                const dataIndex = element.index;
+                const clickedData = yearData[dataIndex];
+                console.log("Clicked Point Data: ", clickedData);
+                setMonth(clickedData.month)
+            }
+        },
         plugins: {
             legend: {
                 display: false,
@@ -75,12 +91,12 @@ const Stats = () => {
             x: {
                 grid: { display: false },
                 ticks: { color: "#333" },
-                beginAtZero: true, 
+                beginAtZero: true,
             },
             y: {
-                grid: { color: "rgba(136, 132, 216, 0.2)" }, 
-                ticks: { color: "#333" }, 
-                beginAtZero: true,  
+                grid: { color: "rgba(136, 132, 216, 0.2)" },
+                ticks: { color: "#333" },
+                beginAtZero: true,
             },
         },
         layout: {
@@ -88,19 +104,60 @@ const Stats = () => {
         },
     };
 
+    const barChartData = {
+        labels: monthData.map(item => item._id),
+        datasets: [
+            {
+                label: 'Expenses',
+                data: monthData.map(item => item.Amount),
+                backgroundColor: [
+                    '#FF6384',
+                    '#36A2EB',
+                    '#FFCE56',
+                    '#4BC0C0',
+                    '#9966FF',
+                    '#FF9F40',
+                    '#5AC18E',
+                ],
+                borderColor: '#ccc',
+                borderWidth: 1,
+            },
+        ],
+    };
+    const barOptions = {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: `Category-wise Expenses Breakdown of ${month}`,
+                size: 18
+            },
+        },
+    };
 
+    const handleYearChange = (e) => {
+        console.log(e.target.value);
+        setYear(e.target.value);
+        setMonth('')
+    }
 
 
     return (
-        <div style={{
-            margin: "auto",
-            height: 400,
-            width: "85%",
-            backgroundColor: "transparent"
-        }}>
+        <>
             <h1>Statistics of the year {`${year}`}</h1>
-            <Line data={lineChartData} options={lineChartOptions} style={{ height: 450, width: 730 }} />
-        </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", height: "100%" }}>
+                <select value={year} onChange={(e) => handleYearChange(e)} style={{ padding: "10px", marginBottom: "25px" }}>
+                    <option key={'2025'} value={'2025'}>2025</option>
+                    <option key={'2024'} value={'2024'}>2024</option>
+                </select>
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: 450, width: "90%", marginBottom: "25px" }}>
+                    <Line data={lineChartData} options={lineChartOptions} style={{ height: 400, width: 830 }} />
+                </div>
+                {month && <div style={{ width: '80%', margin: '0 auto', marginBottom: "25px" }}>
+                    <Bar data={barChartData} options={barOptions} />
+                </div>}
+            </div>
+        </>
 
     );
 };
