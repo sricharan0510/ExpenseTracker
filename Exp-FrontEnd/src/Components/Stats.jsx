@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Line, Bar } from "react-chartjs-2";
+import { Line, Bar, Pie } from "react-chartjs-2";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -11,19 +11,24 @@ import {
     BarElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    ArcElement
 } from "chart.js";
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, LineElement, ArcElement, Title, Tooltip, Legend);
 
 
 const Stats = () => {
     const { userId } = useParams();
+
     const [year, setYear] = useState('2025');
     const [yearData, setYearData] = useState([]);
 
     const [month, setMonth] = useState('')
     const [monthData, setMonthData] = useState([])
+
+    const [cat, setCat] = useState('')
+    const [catData, setCatData] = useState([])
 
     useEffect(() => {
         axios
@@ -44,12 +49,23 @@ const Stats = () => {
             .catch((err) => console.error(err));
     }, [month]);
 
+    useEffect(() => {
+        console.log('Effect triggered for cat:', cat);
+        axios
+            .get(`http://localhost:9000/${userId}/${year}/${month}/${cat}`)
+            .then((res) => {
+                setCatData(res.data);
+            })
+            .catch((err) => console.error(err));
+    }, [cat]);
+
+
     const lineChartData = {
         labels: yearData.map(data => data.month),
         datasets: [
             {
                 label: "Monthly Expenses",
-                data:  yearData.map(data => data.totalMonthExpense),
+                data: yearData.map(data => data.totalMonthExpense),
                 fill: false,
                 borderColor: "#4A90E2",
                 pointBackgroundColor: "#4A90E2",
@@ -126,6 +142,15 @@ const Stats = () => {
     };
     const barOptions = {
         responsive: true,
+        onClick: (event, elements) => {
+            if (elements.length > 0) {
+                const clickedElementIndex = elements[0].index;
+                const clickedLabel = barChartData.labels[clickedElementIndex];
+                const clickedValue = barChartData.datasets[0].data[clickedElementIndex];
+                console.log(clickedLabel, clickedValue);
+                setCat(clickedLabel)
+            }
+        },
         plugins: {
             title: {
                 display: true,
@@ -135,10 +160,59 @@ const Stats = () => {
         },
     };
 
+    const pieChartDataOne = {
+        labels: (catData && catData[0] && catData[0].priorities) ? catData[0].priorities.map(item => item._id) : [], // Check for catData and priorities
+        datasets: [
+            {
+                label: 'Expenses',
+                data: (catData && catData[0] && catData[0].priorities) ? catData[0].priorities.map(item => item.totalPriority) : [],
+                backgroundColor: [
+                    '#FF6384', // Red
+                    '#36A2EB', // Blue
+                    '#FFCE56', // Yellow
+                ],
+                borderColor: '#ccc',
+                borderWidth: 1,
+            },
+        ],
+    };
+    const pieChartDataTwo = {
+        labels: (catData && catData[0] && catData[0].paymentMethods) ? catData[0].paymentMethods.map(item => item._id) : [], 
+        datasets: [
+            {
+                label: 'Expenses',
+                data: (catData && catData[0] && catData[0].paymentMethods) ? catData[0].paymentMethods.map(item => item.totalPaymentMethod) : [],
+                backgroundColor: [
+                    '#9966FF', // Purple
+                    '#4BC0C0', // Teal
+                    '#FF9F40', // Orange
+                    '#5AC18E', // Green
+                ],
+                borderColor: '#ccc',
+                borderWidth: 1,
+            },
+        ],
+    }
+
+
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Category-wise Expenses Breakdown',
+            },
+        },
+    };
+
     const handleYearChange = (e) => {
         console.log(e.target.value);
         setYear(e.target.value);
         setMonth('')
+        setCat('')
     }
 
 
@@ -156,6 +230,12 @@ const Stats = () => {
                 {month && <div style={{ width: '80%', margin: '0 auto', marginBottom: "25px" }}>
                     <Bar data={barChartData} options={barOptions} />
                 </div>}
+                {
+                    cat && <div className='piecharts'>
+                        <Pie data={pieChartDataOne} options={options} />
+                        <Pie data={pieChartDataTwo} options={options} />
+                    </div>
+                }
             </div>
         </>
 
