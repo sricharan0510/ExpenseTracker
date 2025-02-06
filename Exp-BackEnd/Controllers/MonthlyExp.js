@@ -141,3 +141,13 @@ const monthlyTotal = async (req, res) => {
     }
 }
 exports.monthlyTotal = monthlyTotal;
+
+const categoryWiseDat = async(req, res) => {
+    const {userID, year, month, cat} = req.params;
+    try {
+        const data = await expenses.aggregate([])
+    } 
+    catch(err) {
+        return res.status(400).json({message: err.message})
+    }
+}
