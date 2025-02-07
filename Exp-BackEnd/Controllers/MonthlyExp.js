@@ -166,4 +166,4 @@ const categoryWiseDat = async (req, res) => {
     }
 }
 
-exports.categoryWiseDat = categoryWiseDat;
+// exports.categoryWiseDat = categoryWiseDat;
