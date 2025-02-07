@@ -40,14 +40,23 @@ const Stats = () => {
             .catch((err) => console.error(err));
     }, [year]);
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     axios
+    //         .get(`http://localhost:9000/${userId}/${year}/${month}`)
+    //         .then((res) => {
+    //             setMonthData(res.data);
+    //         })
+    //         .catch((err) => console.error(err));
+    // }, [month]);
+
+    const monthClicked = () => {
         axios
             .get(`http://localhost:9000/${userId}/${year}/${month}`)
             .then((res) => {
                 setMonthData(res.data);
             })
             .catch((err) => console.error(err));
-    }, [month]);
+    }
 
     useEffect(() => {
         console.log(cat);
@@ -177,7 +186,7 @@ const Stats = () => {
         ],
     };
     const pieChartDataTwo = {
-        labels: (catData && catData[0] && catData[0].paymentMethods) ? catData[0].paymentMethods.map(item => item._id) : [], 
+        labels: (catData && catData[0] && catData[0].paymentMethods) ? catData[0].paymentMethods.map(item => item._id) : [],
         datasets: [
             {
                 label: 'Expenses',
