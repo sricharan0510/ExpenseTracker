@@ -50,7 +50,7 @@ const Stats = () => {
     }, [month]);
 
     useEffect(() => {
-        console.log('Effect triggered for cat:', cat);
+        console.log(cat);
         axios
             .get(`http://localhost:9000/${userId}/${year}/${month}/${cat}`)
             .then((res) => {
